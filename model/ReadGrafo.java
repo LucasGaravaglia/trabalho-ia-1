@@ -44,11 +44,11 @@ public class ReadGrafo {
 
           } else if (posOrigem == -1 && posDestino != -1) {
             grafo.addVertice(new Vertice(origem));
-            grafo.addAresta(grafo.getVertices().get(grafo.getVertices().size()),
+            grafo.addAresta(grafo.getVertices().get(grafo.getVertices().size()-1),
                 grafo.getVertices().get(posDestino), peso, "");
 
-            grafo.getVertices().get(grafo.getVertices().size())
-                .addAresta(grafo.getArestas().get(grafo.getArestas().size()));
+            grafo.getVertices().get(grafo.getVertices().size()-1)
+                .addAresta(grafo.getArestas().get(grafo.getArestas().size()-1));
           } else if (posOrigem != -1 && posDestino == -1) {
             grafo.addVertice(new Vertice(destino));
             grafo.addAresta(grafo.getVertices().get(posOrigem),
