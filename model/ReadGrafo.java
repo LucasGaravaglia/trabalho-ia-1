@@ -26,9 +26,10 @@ public class ReadGrafo {
       try {
         line = reader.readLine();
         while (line != null) {
+          line = line.replaceAll("\\s+", "");
           origem = line.split("\\(")[1].split("\\,")[0];
           destino = line.split("\\(")[1].split("\\,")[1];
-          peso = Integer.parseInt(line.split("\\(")[1].split("\\,")[2].split("\\)")[0]);
+          peso = Integer.valueOf(line.split("\\(")[1].split("\\,")[2].split("\\)")[0]);
 
           posOrigem = this.searchVertice(grafo.getVertices(), origem);
           posDestino = this.searchVertice(grafo.getVertices(), destino);
@@ -44,11 +45,11 @@ public class ReadGrafo {
 
           } else if (posOrigem == -1 && posDestino != -1) {
             grafo.addVertice(new Vertice(origem));
-            grafo.addAresta(grafo.getVertices().get(grafo.getVertices().size()-1),
+            grafo.addAresta(grafo.getVertices().get(grafo.getVertices().size() - 1),
                 grafo.getVertices().get(posDestino), peso, "");
 
-            grafo.getVertices().get(grafo.getVertices().size()-1)
-                .addAresta(grafo.getArestas().get(grafo.getArestas().size()-1));
+            grafo.getVertices().get(grafo.getVertices().size() - 1)
+                .addAresta(grafo.getArestas().get(grafo.getArestas().size() - 1));
           } else if (posOrigem != -1 && posDestino == -1) {
             grafo.addVertice(new Vertice(destino));
             grafo.addAresta(grafo.getVertices().get(posOrigem),

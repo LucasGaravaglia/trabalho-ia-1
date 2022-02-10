@@ -4,13 +4,41 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Vertice {
+public class Vertice implements Comparable<Vertice> {
 	private String nome;
 	private List<Aresta> arestas;
 	private Grafo grafo;
+	private Integer distancia;
+	private Vertice pai;
+
+	public void setPai(Vertice pai) {
+		this.pai = pai;
+	}
+
+	public Vertice getPai() {
+		return this.pai;
+	}
+
+	public void setDistancia(int distance) {
+		this.distancia = distance;
+	}
+
+	public Integer getDistancia() {
+		return this.distancia;
+	}
 
 	public Grafo getGrafo() {
 		return grafo;
+	}
+
+	public int compareTo(Vertice vertice) {
+		if (this.getDistancia() < vertice.getDistancia())
+			return -1;
+		else if (this.getDistancia() == vertice.getDistancia())
+			return 0;
+
+		return 1;
+
 	}
 
 	public void setGrafo(Grafo grafo) {
