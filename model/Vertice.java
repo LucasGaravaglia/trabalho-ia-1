@@ -9,14 +9,14 @@ public class Vertice implements Comparable<Vertice> {
 	private List<Aresta> arestas;
 	private Grafo grafo;
 	private Integer distancia;
-	private Vertice pai;
+	private Vertice predecessor;
 
-	public void setPai(Vertice pai) {
-		this.pai = pai;
+	public void setPredecessor(Vertice predecessor) {
+		this.predecessor = predecessor;
 	}
 
-	public Vertice getPai() {
-		return this.pai;
+	public Vertice getPredecessor() {
+		return this.predecessor;
 	}
 
 	public void setDistancia(int distance) {
