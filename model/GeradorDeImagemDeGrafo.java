@@ -42,7 +42,6 @@ public class GeradorDeImagemDeGrafo {
       Link aresta = to(n2).with(Label.htmlLines(a.getNome(), "<font color=\"blue\">" + a.getPeso() + "</font>"));
       if (ad.contains(a))
         aresta = aresta.with(Color.RED);
-
       g = g.with(n1.link(aresta));
     }
 

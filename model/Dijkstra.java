@@ -7,8 +7,8 @@ import java.util.List;
 public class Dijkstra {
   private static Integer INFINITO = Integer.MAX_VALUE;
 
-  List<Vertice> menorCaminho, vizinhosVisitados, naoVisitados;
-  Vertice verticeCaminho, atual, vizinho;
+  private List<Vertice> menorCaminho, vizinhosVisitados, naoVisitados;
+  private Vertice verticeCaminho, atual, vizinho;
 
   public Dijkstra() {
     this.menorCaminho = new ArrayList<Vertice>();
@@ -17,6 +17,14 @@ public class Dijkstra {
     this.verticeCaminho = new Vertice();
     this.atual = new Vertice();
     this.vizinho = new Vertice();
+  }
+
+  public List<Vertice> getVizinhosVisitados() {
+    return this.vizinhosVisitados;
+  }
+
+  public List<Vertice> getMenorCaminho() {
+    return this.menorCaminho;
   }
 
   public List<Vertice> execute(Grafo grafo, Vertice v1, Vertice v2) {
