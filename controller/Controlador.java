@@ -7,6 +7,7 @@ import model.Algoritmo;
 import model.BuscaEmLargura;
 import model.BuscaEmProfundidade;
 import model.BuscaEmProfundidadeComRetrocesso;
+import model.Dijkstra;
 import model.FazNada;
 import model.GeradorDeImagemDeGrafo;
 import model.Grafo;
@@ -83,7 +84,7 @@ public class Controlador implements TratadorDeResulltado {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Controlador(List.of(new BuscaEmLargura(), new BuscaEmProfundidade(), new BuscaEmProfundidadeComRetrocesso(),
-				new FazNada())).exibirTela();
+				new Dijkstra())).exibirTela();
 	}
 
 	@Override

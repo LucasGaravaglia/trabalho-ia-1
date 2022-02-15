@@ -44,20 +44,20 @@ public class Dijkstra extends Algoritmo {
     }
     Collections.sort(notVisited);
 
+    // resultado.atualizar(this.notVisited.get(0), null);
     // O algoritmo continua ate que todos os vertices sejam visitados
     while (!this.notVisited.isEmpty()) {
-      resultado.finalizar();
-      super.aguardar();
       currentVertex = this.notVisited.get(0);
+      super.aguardar();
       for (int i = 0; i < currentVertex.getArestas().size(); i++) {
+        if (neighbors != null && neighbors == destiny)
+          break;
         resultado.atualizar(currentVertex, currentVertex.getArestas().get(i));
-        resultado.finalizar();
         super.aguardar();
         neighbors = currentVertex.getArestas().get(i).getV2();
         if (!VisitedNeighbors.contains(neighbors)) {
           if (neighbors.getDistancia() > (currentVertex.getDistancia() + currentVertex.getArestas().get(i).getPeso())) {
             resultado.atualizar(neighbors, currentVertex.getArestas().get(i));
-            resultado.finalizar();
             super.aguardar();
             neighbors.setDistancia(currentVertex.getDistancia() + currentVertex.getArestas().get(i).getPeso());
             neighbors.setPredecessor(currentVertex);
@@ -72,6 +72,7 @@ public class Dijkstra extends Algoritmo {
               // Ordena a lista do menor caminho, para que ele
               // seja exibido da origem ao destino.
               Collections.sort(shortestWay);
+              break;
             }
           }
         }
@@ -80,6 +81,8 @@ public class Dijkstra extends Algoritmo {
       this.notVisited.remove(currentVertex);
       Collections.sort(notVisited);
     }
+    resultado.finalizar();
+    super.aguardar();
   }
 
   @Override
