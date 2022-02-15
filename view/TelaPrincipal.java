@@ -75,7 +75,7 @@ public class TelaPrincipal extends JFrame {
 		JRadioButton jrb;
 		for (Algoritmo algoritmo : controlador.getAlgoritmos()) {
 			jrb = new JRadioButton(algoritmo.toString());
-			jrb.setFont(jrb.getFont().deriveFont(18f));
+			jrb.setFont(jrb.getFont().deriveFont(12f));
 			jrb.setBorder(new EmptyBorder(10, 5, 10, 5));
 			grupoSeletoresAlgoritmos.add(jrb);
 			seletoresAlgoritmos.add(jrb);
