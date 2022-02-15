@@ -8,6 +8,15 @@ public class ResultadoAlgoritmo {
 	private List<Aresta> arestasPercorridas;
 	private boolean finalizado;
 	private Vertice destino;
+	private String informacoes;
+
+	public void setInformacoes(String informacoes) {
+		this.informacoes = informacoes;
+	}
+
+	public String getInformacoes() {
+		return this.informacoes;
+	}
 
 	public List<Vertice> getVerticesPercorridos() {
 		return verticesPercorridos;
@@ -29,6 +38,7 @@ public class ResultadoAlgoritmo {
 		// TODO Auto-generated constructor stub
 		this.verticesPercorridos = new ArrayList<>();
 		this.arestasPercorridas = new ArrayList<>();
+		this.informacoes = "";
 	}
 
 	public ResultadoAlgoritmo(Vertice verticeInicial, Vertice verticeAlvo) {
