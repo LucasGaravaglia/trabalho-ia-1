@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.attribute.Label;
+import guru.nidi.graphviz.attribute.Style;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.Factory;
@@ -24,7 +26,7 @@ public class GeradorDeImagemDeGrafo {
     this.grafo = g;
   }
 
-  public void gerarImagem(File f, List<Aresta> ad) {
+  public BufferedImage gerarImagem(Vertice atual, List<Aresta> ad) {
     Graph g = Factory.graph();
     if (this.grafo.isOrientado())
       g = g.directed();
@@ -32,6 +34,9 @@ public class GeradorDeImagemDeGrafo {
     HashMap<Vertice, Node> nodes = new HashMap<Vertice, Node>();
     for (Vertice v : this.grafo.getVertices()) {
       Node node = Factory.node(v.getNome());
+      if (v == atual)
+        node = Factory.node(Label.htmlLines("<font color=\"white\">" + v.getNome() + "</font>"))
+            .with(Style.FILLED, Color.BLUE);
       nodes.put(v, node);
       g = g.with(node);
     }
@@ -40,15 +45,17 @@ public class GeradorDeImagemDeGrafo {
       Node n1 = nodes.get(a.getV1());
       Node n2 = nodes.get(a.getV2());
       Link aresta = to(n2).with(Label.htmlLines(a.getNome(), "<font color=\"blue\">" + a.getPeso() + "</font>"));
-      if (ad.contains(a))
+      if ((ad != null) && ad.contains(a))
         aresta = aresta.with(Color.RED);
+
       g = g.with(n1.link(aresta));
     }
 
     try {
-      Graphviz.fromGraph(g).height(600).render(Format.PNG).toFile(f);
+      return Graphviz.fromGraph(g).height(600).render(Format.PNG).toImage();
     } catch (Exception e) {
       e.printStackTrace();
+      return null;
     }
   }
 

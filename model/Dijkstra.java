@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Dijkstra {
+public class Dijkstra extends Algoritmo {
   private static Integer INFINITE = Integer.MAX_VALUE;
 
   private List<Vertice> shortestWay, VisitedNeighbors, notVisited;
@@ -27,7 +27,9 @@ public class Dijkstra {
     return this.shortestWay;
   }
 
-  public List<Vertice> execute(Grafo grafo, Vertice origin, Vertice destiny) {
+  @Override
+  public void executar(Grafo grafo, Vertice origin, Vertice destiny) {
+    resultado = new ResultadoAlgoritmo(origin, destiny);
     shortestWay.add(origin);
 
     // Colocando a distancias iniciais
@@ -44,11 +46,19 @@ public class Dijkstra {
 
     // O algoritmo continua ate que todos os vertices sejam visitados
     while (!this.notVisited.isEmpty()) {
+      resultado.finalizar();
+      super.aguardar();
       currentVertex = this.notVisited.get(0);
       for (int i = 0; i < currentVertex.getArestas().size(); i++) {
+        resultado.atualizar(currentVertex, currentVertex.getArestas().get(i));
+        resultado.finalizar();
+        super.aguardar();
         neighbors = currentVertex.getArestas().get(i).getV2();
         if (!VisitedNeighbors.contains(neighbors)) {
           if (neighbors.getDistancia() > (currentVertex.getDistancia() + currentVertex.getArestas().get(i).getPeso())) {
+            resultado.atualizar(neighbors, currentVertex.getArestas().get(i));
+            resultado.finalizar();
+            super.aguardar();
             neighbors.setDistancia(currentVertex.getDistancia() + currentVertex.getArestas().get(i).getPeso());
             neighbors.setPredecessor(currentVertex);
             if (neighbors == destiny) {
@@ -70,6 +80,11 @@ public class Dijkstra {
       this.notVisited.remove(currentVertex);
       Collections.sort(notVisited);
     }
-    return shortestWay;
+  }
+
+  @Override
+  public String toString() {
+    // TODO Auto-generated method stub
+    return "Djikstra";
   }
 }
