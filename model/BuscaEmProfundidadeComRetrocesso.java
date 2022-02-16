@@ -40,6 +40,15 @@ public class BuscaEmProfundidadeComRetrocesso extends Algoritmo {
 					super.aguardar();
 					guardarTempo();
 					buscaEmProfundidade(a.getV2(), d);
+					if(!resultado.getVerticesPercorridos().contains(d))
+					{
+						Aresta arestaRetorno = a.getV2().getAresta(o);
+						System.out.println(arestaRetorno);
+						arestaRetorno = arestaRetorno != null ? arestaRetorno : a;
+						resultado.atualizar(o, arestaRetorno);
+						super.aguardar();
+						guardarTempo();
+					}
 				} /*else if (o == a.getV2() && !resultado.getVerticesPercorridos().contains(a.getV1())) {
 					resultado.atualizar(a.getV1(), a);
 					buscaEmProfundidade(a.getV1(), d);

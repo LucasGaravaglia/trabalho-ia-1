@@ -40,12 +40,12 @@ public class BuscaEmProfundidade extends Algoritmo {
 					super.aguardar();
 					guardarTempo();
 					buscaEmProfundidade(a.getV2(), d);
+					return;
 				}/* else if (o == a.getV2() && !resultado.getVerticesPercorridos().contains(a.getV1())) {
 					resultado.atualizar(a.getV1(), a);
 					buscaEmProfundidade(a.getV1(), d);
 					super.aguardar();
 				}*/
-				return;
 			}
 		}
 	}

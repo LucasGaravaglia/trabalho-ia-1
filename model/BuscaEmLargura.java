@@ -18,26 +18,33 @@ public class BuscaEmLargura extends Algoritmo {
 			super.aguardar();
 			return;
 		}
-		
+
 		super.aguardar();
 		guardarTempo();
-		
+
 		fila.offer(o);
 		while (!fila.isEmpty()) {
 			Vertice v = fila.poll();
 
 			for (Aresta a : v.getArestas()) {
-				Vertice adj = v == a.getV1() ? a.getV2() : a.getV1();
-				if (!resultado.getVerticesPercorridos().contains(adj)) {
-					resultado.atualizar(adj, a);
-					fila.offer(adj);
-					if (adj == d) {
-						resultado.finalizar();
+				if (v == a.getV1()) {
+					Vertice adj = a.getV2();
+					if (!resultado.getVerticesPercorridos().contains(adj)) {
+						resultado.atualizar(adj, a);
 						super.aguardar();
-						return;
+						guardarTempo();
+						fila.offer(adj);
+						if (adj == d) {
+							resultado.finalizar();
+							super.aguardar();
+							return;
+						}
+						Aresta arestaRetorno = adj.getAresta(v);
+						arestaRetorno = arestaRetorno != null ? arestaRetorno : a;
+						resultado.atualizar(v, arestaRetorno);
+						super.aguardar();
+						guardarTempo();
 					}
-					super.aguardar();
-					guardarTempo();
 				}
 			}
 
