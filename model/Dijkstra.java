@@ -81,6 +81,7 @@ public class Dijkstra extends Algoritmo {
       this.notVisited.remove(currentVertex);
       Collections.sort(notVisited);
     }
+    System.out.println(this.getShortestWay());
     resultado.finalizar();
     super.aguardar();
   }
