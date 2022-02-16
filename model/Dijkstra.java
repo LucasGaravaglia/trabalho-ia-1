@@ -58,14 +58,11 @@ public class Dijkstra extends Algoritmo {
     // resultado.atualizar(this.notVisited.get(0), null);
     // O algoritmo continua ate que todos os vertices sejam visitados
     while (!this.notVisited.isEmpty()) {
+      if (this.shortestWay.contains(destiny)) {
+        break;
+      }
       currentVertex = this.notVisited.get(0);
       for (int i = 0; i < currentVertex.getArestas().size(); i++) {
-        if (neighbors != null && neighbors == destiny) {
-          resultado.atualizar(neighbors, currentVertex.getArestas().get(i));
-          super.aguardar();
-          guardarTempo();
-          break;
-        }
         resultado.atualizar(currentVertex, currentVertex.getArestas().get(i));
         super.aguardar();
         guardarTempo();
@@ -85,6 +82,9 @@ public class Dijkstra extends Algoritmo {
               // Ordena a lista do menor caminho, para que ele
               // seja exibido da origem ao destino.
               Collections.sort(shortestWay);
+              resultado.atualizar(neighbors, currentVertex.getArestas().get(i));
+              super.aguardar();
+              guardarTempo();
               break;
             }
           }
@@ -93,7 +93,15 @@ public class Dijkstra extends Algoritmo {
       VisitedNeighbors.add(currentVertex);
       this.notVisited.remove(currentVertex);
       Collections.sort(notVisited);
+      if (this.shortestWay.contains(destiny)) {
+        break;
+      }
     }
+    String inf = "";
+    for (Vertice vertice : this.shortestWay) {
+      inf += vertice.toString() + "\n";
+    }
+    resultado.setInformacoes(inf);
     resultado.finalizar();
     super.aguardar();
     System.out.println(this.shortestWay);
