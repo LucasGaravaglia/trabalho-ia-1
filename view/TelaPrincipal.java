@@ -3,24 +3,21 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import javax.swing.BoxLayout;
+import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -28,13 +25,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controlador;
 import model.Algoritmo;
-import model.BuscaEmLargura;
-import model.BuscaEmProfundidadeComRetrocesso;
 import model.Vertice;
 
 public class TelaPrincipal extends JFrame {
@@ -44,6 +41,7 @@ public class TelaPrincipal extends JFrame {
 	private JMenuBar barraDeMenus;
 	private JMenu menuArquivo;
 	private JMenuItem itemAbrir;
+	private JMenuItem itemSair;
 
 	private JPanel painelLateral;
 	private JPanel painelGrafo;
@@ -55,10 +53,16 @@ public class TelaPrincipal extends JFrame {
 	private List<JRadioButton> seletoresAlgoritmos;
 	private ButtonGroup grupoSeletoresAlgoritmos;
 
+	private JLabel rotuloOrigem;
 	private JComboBox<Vertice> seletorDeOrigem;
+	private JLabel rotuloDestino;
 	private JComboBox<Vertice> seletorDeDestino;
 
 	private JButton botaoExecutar;
+
+	private JTextArea rotuloResultado;
+
+	private JCheckBox seletorPassoAPasso;
 
 	private JFileChooser seletorDeArquivo;
 
@@ -75,8 +79,11 @@ public class TelaPrincipal extends JFrame {
 		JRadioButton jrb;
 		for (Algoritmo algoritmo : controlador.getAlgoritmos()) {
 			jrb = new JRadioButton(algoritmo.toString());
-			jrb.setFont(jrb.getFont().deriveFont(12f));
-			jrb.setBorder(new EmptyBorder(10, 5, 10, 5));
+			jrb.setToolTipText(algoritmo.toString());
+			jrb.setFont(jrb.getFont().deriveFont(15f));
+			//jrb.setBorder(new EmptyBorder(10, 5, 10, 5));
+			jrb.setPreferredSize(new Dimension(250, 40));
+			jrb.setPreferredSize(new Dimension(250, 40));
 			grupoSeletoresAlgoritmos.add(jrb);
 			seletoresAlgoritmos.add(jrb);
 		}
@@ -103,6 +110,7 @@ public class TelaPrincipal extends JFrame {
 		barraDeMenus = new JMenuBar();
 		menuArquivo = new JMenu("Arquivo");
 		itemAbrir = new JMenuItem("Abrir arquivo");
+		itemSair = new JMenuItem("Sair");
 
 		painelLateral = new JPanel();
 		painelGrafo = new JPanel(new BorderLayout());
@@ -111,9 +119,14 @@ public class TelaPrincipal extends JFrame {
 		painelRolagemGrafo = new JScrollPane(rotuloGrafo);
 
 		rotuloEscolha = new JLabel("Escolha o algoritmo:");
+		rotuloOrigem = new JLabel("Origem:");
 		seletorDeOrigem = new JComboBox<>();
+		rotuloDestino = new JLabel("Destino:");
 		seletorDeDestino = new JComboBox<>();
 		botaoExecutar = new JButton("Executar");
+		seletorPassoAPasso = new JCheckBox("Passo a passo");
+		rotuloResultado = new JTextArea(20, 15);
+
 	}
 
 	private void definirOpcoesDaJanela() {
@@ -127,31 +140,60 @@ public class TelaPrincipal extends JFrame {
 
 	private void configurarComponentes() {
 		// TODO Auto-generated method stub
-		itemAbrir.setIcon(new ImageIcon(this.getClass().getResource("/img/open-folder.png")));
-
+		//itemAbrir.setIcon(new ImageIcon(this.getClass().getResource("/img/open-folder.png")));
+		menuArquivo.setFont(rotuloEscolha.getFont().deriveFont(16f));
+		itemAbrir.setFont(rotuloEscolha.getFont().deriveFont(16f));
+		itemSair.setFont(rotuloEscolha.getFont().deriveFont(16f));
+		
 		painelLateral.setPreferredSize(new Dimension(300, 500));
-		painelLateral.setLayout(new BoxLayout(painelLateral, BoxLayout.Y_AXIS));
+		painelLateral.setLayout(new FlowLayout(FlowLayout.LEADING));
 		painelLateral.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-		rotuloEscolha.setBorder(new EmptyBorder(10, 5, 10, 5));
+		// rotuloEscolha.setBorder(new EmptyBorder(10, 5, 10, 5));
 		rotuloEscolha.setFont(rotuloEscolha.getFont().deriveFont(20f));
+		rotuloEscolha.setPreferredSize(new Dimension(250, 40));
+		rotuloEscolha.setMaximumSize(new Dimension(250, 40));
+
+		rotuloOrigem.setFont(rotuloEscolha.getFont().deriveFont(20f));
+		rotuloOrigem.setPreferredSize(new Dimension(250, 40));
+		rotuloOrigem.setMaximumSize(new Dimension(250, 40));
 
 		seletorDeOrigem.setFont(rotuloEscolha.getFont().deriveFont(20f));
-		seletorDeOrigem.setMaximumSize(new Dimension(600, 50));
+		seletorDeOrigem.setPreferredSize(new Dimension(250, 40));
+		seletorDeOrigem.setPreferredSize(new Dimension(250, 40));
+
+		rotuloDestino.setFont(rotuloEscolha.getFont().deriveFont(20f));
 
 		seletorDeDestino.setFont(rotuloEscolha.getFont().deriveFont(20f));
-		seletorDeDestino.setMaximumSize(new Dimension(600, 50));
+		seletorDeDestino.setPreferredSize(new Dimension(250, 40));
+		seletorDeDestino.setMaximumSize(new Dimension(250, 40));
+
+		seletorPassoAPasso.setFont(rotuloGrafo.getFont().deriveFont(20f));
+		//seletorPassoAPasso.setBorder(new EmptyBorder(20, 15, 15, 15));
+		seletorPassoAPasso.setPreferredSize(new Dimension(250, 40));
+		seletorPassoAPasso.setMaximumSize(new Dimension(250, 40));
 
 		botaoExecutar.setFont(botaoExecutar.getFont().deriveFont(20f));
+		// botaoExecutar.setBorder(new EmptyBorder(20, -20, 20, 20));
 		// botaoExecutar.setMaximumSize(new Dimension(260, 40));
-		// botaoExecutar.setPreferredSize(new Dimension(260, 40));
-		botaoExecutar.setMaximumSize(new Dimension(600, 50));
+		botaoExecutar.setPreferredSize(new Dimension(250, 50));
+		botaoExecutar.setMaximumSize(new Dimension(250, 50));
+
+		rotuloResultado.setEditable(false);
+		rotuloResultado.setBackground(new Color(225, 225, 225));
+		rotuloResultado.setBorder(new EmptyBorder(0, 0, 0 ,0));
+		rotuloResultado.setFont(botaoExecutar.getFont().deriveFont(16f));
+		rotuloResultado.setPreferredSize(new Dimension(250, 40));
+		rotuloResultado.setMaximumSize(new Dimension(250, 40));
 
 		rotuloTituloGrafo.setHorizontalAlignment(JLabel.CENTER);
-		rotuloTituloGrafo.setFont(rotuloGrafo.getFont().deriveFont(20f).deriveFont(Font.BOLD));
+		rotuloTituloGrafo.setFont(rotuloTituloGrafo.getFont().deriveFont(20f).deriveFont(Font.BOLD));
 		rotuloTituloGrafo.setBorder(new EmptyBorder(30, 30, 5, 5));
 
 		rotuloGrafo.setOpaque(true);
+		rotuloGrafo.setFont(rotuloGrafo.getFont().deriveFont(20f).deriveFont(Font.BOLD));
+		rotuloGrafo.setHorizontalAlignment(SwingConstants.CENTER);
+		rotuloGrafo.setVerticalAlignment(SwingConstants.CENTER);
 		rotuloGrafo.setBackground(Color.WHITE);
 
 		painelRolagemGrafo.setBackground(Color.WHITE);
@@ -163,11 +205,23 @@ public class TelaPrincipal extends JFrame {
 			int selecao = seletorDeArquivo.showOpenDialog(this);
 
 			if (selecao == JFileChooser.APPROVE_OPTION) {
+				rotuloGrafo.setIcon(null);
+				rotuloGrafo.setText("Carregando...");
 				controlador.lerArquivo(seletorDeArquivo.getSelectedFile());
+				rotuloGrafo.setText("");
 			}
 		});
 
-		rotuloGrafo.addMouseListener(new MouseAdapter() {
+		itemSair.addActionListener(l -> {
+			int selecao = JOptionPane.showConfirmDialog(TelaPrincipal.this, "Deseja realmente sair?", "Sair",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+			if (selecao == JOptionPane.YES_OPTION) {
+				System.exit(0);
+			}
+		});
+
+		/*rotuloGrafo.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -179,20 +233,33 @@ public class TelaPrincipal extends JFrame {
 					}
 			}
 
-		});
+		});*/
 
 		botaoExecutar.addActionListener(l -> {
-			for (JRadioButton jrb : seletoresAlgoritmos)
-				if (jrb.isSelected()) {
-					controlador.executar(jrb.getText(), (Vertice) seletorDeOrigem.getSelectedItem(),
-							(Vertice) seletorDeDestino.getSelectedItem());
-					break;
-				}
+			if (botaoExecutar.getText().equals("Executar")) {
+				for (JRadioButton jrb : seletoresAlgoritmos)
+					if (jrb.isSelected()) {
+						controlador.executar(jrb.getText(), (Vertice) seletorDeOrigem.getSelectedItem(),
+								(Vertice) seletorDeDestino.getSelectedItem(), seletorPassoAPasso.isSelected());
+						return;
+					}
+				JOptionPane.showMessageDialog(this, "Nenhum algoritmo foi selecionado.", "Mensagem", JOptionPane.WARNING_MESSAGE);
+			} else {
+				for (JRadioButton jrb : seletoresAlgoritmos)
+					if (jrb.isSelected()) {
+						controlador.avancar(jrb.getText());
+						break;
+					}
+			}
+
 		});
+
 	}
 
 	private void posicionarComponentes() {
+
 		menuArquivo.add(itemAbrir);
+		menuArquivo.add(itemSair);
 		barraDeMenus.add(menuArquivo);
 
 		// TODO Auto-generated method stub
@@ -200,15 +267,28 @@ public class TelaPrincipal extends JFrame {
 		painelLateral.add(rotuloEscolha);
 		for (JRadioButton jrb : seletoresAlgoritmos)
 			painelLateral.add(jrb);
+		painelLateral.add(rotuloOrigem);
+		JPanel jp = new JPanel();
+		jp.setMaximumSize(new Dimension(600, 70));
+		jp.add(Box.createHorizontalStrut(25));
 		painelLateral.add(seletorDeOrigem);
+		// painelLateral.add(jp);
+		painelLateral.add(rotuloDestino);
+		jp = new JPanel();
+		jp.setMaximumSize(new Dimension(600, 70));
+		jp.add(Box.createHorizontalStrut(25));
 		painelLateral.add(seletorDeDestino);
+		// painelLateral.add(jp);
+		painelLateral.add(seletorPassoAPasso);
 		painelLateral.add(botaoExecutar);
+		painelLateral.add(rotuloResultado);
 
 		painelGrafo.add(rotuloTituloGrafo, BorderLayout.NORTH);
 		painelGrafo.add(painelRolagemGrafo);
 		this.add(painelGrafo);
 	}
 
+	/** Atualiza os vértices de seleção */
 	public void atualizarVertices(List<Vertice> vertices) {
 		seletorDeOrigem.removeAllItems();
 		seletorDeDestino.removeAllItems();
@@ -226,6 +306,30 @@ public class TelaPrincipal extends JFrame {
 
 	public void setImagem(BufferedImage imagem) {
 		rotuloGrafo.setIcon(new ImageIcon(imagem));
+	}
+
+	/** Ativa ou desativa os botões dependendo se o algoritmo está ou não em execução*/
+	public void habilitarBotoes(boolean b) {
+		// botaoExecutar.setEnabled(b);
+		if (b)
+		{
+			botaoExecutar.setEnabled(true);
+			botaoExecutar.setText("Executar");
+		}
+		else if(seletorPassoAPasso.isSelected())
+			botaoExecutar.setText("Avançar");
+		else
+			botaoExecutar.setEnabled(false);
+		seletorPassoAPasso.setEnabled(b);
+		for (JRadioButton jrb : seletoresAlgoritmos)
+			jrb.setEnabled(b);
+		seletorDeOrigem.setEnabled(b);
+		seletorDeDestino.setEnabled(b);
+	}
+
+	/** Atualiza a área de teto de resultado*/
+	public void atualizarTextoResultado(String texto) {
+		rotuloResultado.setText(texto);
 	}
 
 }

@@ -1,10 +1,9 @@
 package model;
 
-import controller.*;
-
 public abstract class Algoritmo {
 
 	private boolean executarPassoAPasso;
+	private long ultimoTempo;
 	protected ResultadoAlgoritmo resultado;
 	protected TratadorDeResulltado tratadorDeResulltado;
 
@@ -27,6 +26,8 @@ public abstract class Algoritmo {
 	}
 
 	protected final void aguardar() {
+		this.resultado.somarTempo(System.currentTimeMillis() - ultimoTempo);
+		System.out.println("a "+System.currentTimeMillis());
 		synchronized (this) {
 			try {
 				if (executarPassoAPasso) {
@@ -41,5 +42,10 @@ public abstract class Algoritmo {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	protected final void guardarTempo() {
+		ultimoTempo = System.currentTimeMillis();
+		System.out.println("u "+ultimoTempo);
 	}
 }

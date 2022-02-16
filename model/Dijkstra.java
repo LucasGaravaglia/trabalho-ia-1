@@ -29,6 +29,7 @@ public class Dijkstra extends Algoritmo {
 
   @Override
   public void executar(Grafo grafo, Vertice origin, Vertice destiny) {
+	guardarTempo();
     resultado = new ResultadoAlgoritmo(origin, destiny);
     shortestWay.add(origin);
 
@@ -49,16 +50,19 @@ public class Dijkstra extends Algoritmo {
     while (!this.notVisited.isEmpty()) {
       currentVertex = this.notVisited.get(0);
       super.aguardar();
+      guardarTempo();
       for (int i = 0; i < currentVertex.getArestas().size(); i++) {
         if (neighbors != null && neighbors == destiny)
           break;
         resultado.atualizar(currentVertex, currentVertex.getArestas().get(i));
         super.aguardar();
+        guardarTempo();
         neighbors = currentVertex.getArestas().get(i).getV2();
         if (!VisitedNeighbors.contains(neighbors)) {
           if (neighbors.getDistancia() > (currentVertex.getDistancia() + currentVertex.getArestas().get(i).getPeso())) {
             resultado.atualizar(neighbors, currentVertex.getArestas().get(i));
             super.aguardar();
+            guardarTempo();
             neighbors.setDistancia(currentVertex.getDistancia() + currentVertex.getArestas().get(i).getPeso());
             neighbors.setPredecessor(currentVertex);
             if (neighbors == destiny) {
