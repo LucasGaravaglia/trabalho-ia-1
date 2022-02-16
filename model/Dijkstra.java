@@ -27,8 +27,19 @@ public class Dijkstra extends Algoritmo {
     return this.shortestWay;
   }
 
+  public void clear() {
+    this.shortestWay.clear();
+    this.VisitedNeighbors.clear();
+    this.notVisited.clear();
+    this.vertexPath = new Vertice();
+    this.currentVertex = new Vertice();
+    this.neighbors = new Vertice();
+  }
+
   @Override
   public void executar(Grafo grafo, Vertice origin, Vertice destiny) {
+    this.clear();
+    guardarTempo();
     resultado = new ResultadoAlgoritmo(origin, destiny);
     shortestWay.add(origin);
 
@@ -48,17 +59,19 @@ public class Dijkstra extends Algoritmo {
     // O algoritmo continua ate que todos os vertices sejam visitados
     while (!this.notVisited.isEmpty()) {
       currentVertex = this.notVisited.get(0);
-      super.aguardar();
       for (int i = 0; i < currentVertex.getArestas().size(); i++) {
-        if (neighbors != null && neighbors == destiny)
+        if (neighbors != null && neighbors == destiny) {
+          resultado.atualizar(neighbors, currentVertex.getArestas().get(i));
+          super.aguardar();
+          guardarTempo();
           break;
+        }
         resultado.atualizar(currentVertex, currentVertex.getArestas().get(i));
         super.aguardar();
+        guardarTempo();
         neighbors = currentVertex.getArestas().get(i).getV2();
         if (!VisitedNeighbors.contains(neighbors)) {
           if (neighbors.getDistancia() > (currentVertex.getDistancia() + currentVertex.getArestas().get(i).getPeso())) {
-            resultado.atualizar(neighbors, currentVertex.getArestas().get(i));
-            super.aguardar();
             neighbors.setDistancia(currentVertex.getDistancia() + currentVertex.getArestas().get(i).getPeso());
             neighbors.setPredecessor(currentVertex);
             if (neighbors == destiny) {
@@ -84,6 +97,7 @@ public class Dijkstra extends Algoritmo {
     System.out.println(this.getShortestWay());
     resultado.finalizar();
     super.aguardar();
+    System.out.println(this.shortestWay);
   }
 
   @Override

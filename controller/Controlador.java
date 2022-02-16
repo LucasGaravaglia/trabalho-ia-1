@@ -8,7 +8,6 @@ import model.BuscaEmLargura;
 import model.BuscaEmProfundidade;
 import model.BuscaEmProfundidadeComRetrocesso;
 import model.Dijkstra;
-import model.FazNada;
 import model.GeradorDeImagemDeGrafo;
 import model.Grafo;
 import model.ReadGrafo;
@@ -54,10 +53,13 @@ public class Controlador implements TratadorDeResulltado {
 		return this.algoritmos;
 	}
 
-	public void executar(String algoritmo, Vertice o, Vertice d) {
+	public void executar(String algoritmo, Vertice o, Vertice d, boolean passoAPasso) {
+		tela.habilitarBotoes(false);
 		new Thread(() -> {
 			// Algoritmo alg = buscarAlgoritmoPorNome(algoritmo);
-			buscarAlgoritmoPorNome(algoritmo).executar(grafo, o, d);
+			Algoritmo a = buscarAlgoritmoPorNome(algoritmo);
+			a.setExecutarPassoAPasso(passoAPasso);
+			a.executar(grafo, o, d);
 		}).start();
 	}
 
@@ -83,8 +85,7 @@ public class Controlador implements TratadorDeResulltado {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new Controlador(List.of(new BuscaEmLargura(), new BuscaEmProfundidade(), new BuscaEmProfundidadeComRetrocesso(),
-				new Dijkstra())).exibirTela();
+		new Controlador(List.of(new BuscaEmLargura(), new BuscaEmProfundidade(), new Dijkstra(), new BuscaEmProfundidadeComRetrocesso())).exibirTela();
 	}
 
 	@Override
@@ -93,6 +94,15 @@ public class Controlador implements TratadorDeResulltado {
 		tela.setImagem(geradorDeImagem.gerarImagem(
 				resultado.getVerticesPercorridos().get(resultado.getVerticesPercorridos().size() - 1),
 				resultado.getArestasPercorridas()));
+		tela.atualizarTextoResultado(String.format(
+				"Finalizado: %s\nSalas percorridas: %d\nDistância percorrida: %d\n" + "Tempo: %dms\nDestino alcançado: %s\n%s",
+				resultado.isFinalizado() ? "Sim" : "Não", resultado.getVerticesPercorridos().size(),
+				resultado.getDistancia(), resultado.getTempoGasto(),resultado.isDestinoAlcancado() ? "Sim" : "Não",
+				 resultado.getInformacoes() != null ? "+Info: " + resultado.getInformacoes() : ""));
+		if (resultado.isFinalizado()) {
+			tela.exibirMensagem("Algoritmo finalizado.");
+			tela.habilitarBotoes(true);
+		}
 	}
 
 }

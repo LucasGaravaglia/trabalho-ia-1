@@ -16,6 +16,7 @@ public class ReadGrafo {
 
   public Grafo readFile(String path) {
     Grafo grafo = new Grafo();
+    grafo.setOrientado(true);
     try {
       FileReader arq = new FileReader(path);
       BufferedReader reader = new BufferedReader(arq);

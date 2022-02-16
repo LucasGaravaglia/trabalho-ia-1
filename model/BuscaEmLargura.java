@@ -1,10 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Queue;
-import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class BuscaEmLargura extends Algoritmo {
@@ -12,6 +8,7 @@ public class BuscaEmLargura extends Algoritmo {
 	@Override
 	public void executar(Grafo grafo, Vertice o, Vertice d) {
 		// TODO Auto-generated method stub
+		guardarTempo();
 		Queue<Vertice> fila = new ArrayBlockingQueue<Vertice>(grafo.getVertices().size());
 
 		resultado = new ResultadoAlgoritmo(o, d);
@@ -21,6 +18,10 @@ public class BuscaEmLargura extends Algoritmo {
 			super.aguardar();
 			return;
 		}
+		
+		super.aguardar();
+		guardarTempo();
+		
 		fila.offer(o);
 		while (!fila.isEmpty()) {
 			Vertice v = fila.poll();
@@ -36,6 +37,7 @@ public class BuscaEmLargura extends Algoritmo {
 						return;
 					}
 					super.aguardar();
+					guardarTempo();
 				}
 			}
 

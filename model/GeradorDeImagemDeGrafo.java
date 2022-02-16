@@ -1,9 +1,8 @@
 package model;
 
+import static guru.nidi.graphviz.model.Factory.to;
+
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,8 +15,6 @@ import guru.nidi.graphviz.model.Factory;
 import guru.nidi.graphviz.model.Graph;
 import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.Node;
-
-import static guru.nidi.graphviz.model.Factory.*;
 
 public class GeradorDeImagemDeGrafo {
   Grafo grafo;

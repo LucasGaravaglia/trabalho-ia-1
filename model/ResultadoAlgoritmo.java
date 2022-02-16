@@ -9,6 +9,7 @@ public class ResultadoAlgoritmo {
 	private boolean finalizado;
 	private Vertice destino;
 	private String informacoes;
+	private long tempoGasto;
 
 	public void setInformacoes(String informacoes) {
 		this.informacoes = informacoes;
@@ -76,5 +77,15 @@ public class ResultadoAlgoritmo {
 
 	public boolean isFinalizado() {
 		return this.finalizado;
+	}
+	
+	public void somarTempo(long milissegundos)
+	{
+		this.tempoGasto += milissegundos;
+	}
+	
+	public long getTempoGasto()
+	{
+		return this.tempoGasto;
 	}
 }
